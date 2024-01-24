@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetPostsQuery } from "../api/Plaseholder";
+import { useAppDispatch, useAppSelector } from "../api/hooks";
+import { setOffset } from "../api/redux";
 import { Link } from "react-router-dom";
 import Post from './widjest/Post';
 import style from './main_page.module.css';
@@ -7,7 +9,10 @@ import style from './main_page.module.css';
 const Main_page = () => {
   const [isGetDown, setIsGetDown] = useState(false);
   const [isGetUp, setIsGetUp] = useState(false);
-  const [currentPos, setCurrentPos] = useState(0);
+  //const [currentPos, setCurrentPos] = useState(0);
+
+  const currentPos = useAppSelector((state) => state.state.offset);
+  const dispatch = useAppDispatch();
 
   const { data = [], isLoading } = useGetPostsQuery({ limit: 10, offset: currentPos });
   console.log(data);
@@ -31,9 +36,11 @@ const Main_page = () => {
 
   useEffect(() => {
     if (isGetDown) {
-      setCurrentPos((prev: any) => {
-        return prev < 90 ? prev + 1 : prev;
-      })
+      const offset = currentPos < 90 ? currentPos + 1 : currentPos;
+      dispatch(setOffset(offset))
+      // setCurrentPos((prev: any) => {
+      //   return prev < 90 ? prev + 1 : prev;
+      // })
       console.log(currentPos);
       setIsGetDown(false);
     }
@@ -41,12 +48,14 @@ const Main_page = () => {
 
   useEffect(() => {
     if (isGetUp) {
-      setCurrentPos(prev => {
-        return prev > 0 ? prev - 1 : prev;
-      })
+      const offset = currentPos > 90 ? currentPos - 1 : currentPos;
+      dispatch(setOffset(offset))
+      // setCurrentPos(prev => {
+      //   return prev > 0 ? prev - 1 : prev;
+      //})
       setIsGetUp(false);
     }
-  })
+  }, [isGetUp]);
 
   if (isLoading) return <h1>Loading...</h1>
 
