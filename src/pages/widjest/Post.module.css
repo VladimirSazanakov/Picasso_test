@@ -1,0 +1,39 @@
+.card {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100px;
+  width: 800px;
+  background-color: azure;
+  border-radius: 10px;
+  border: none;
+  font-size: 20px;
+  padding: 5px;
+  margin-bottom: 10px;
+  box-shadow: 5px 5px 10px black;
+
+}
+
+.number {
+  display: flex;
+  width: 50px;
+  margin-left: 20px;
+
+}
+
+.title {
+  display: flex;
+  width: 300px;
+  overflow: hidden;
+  font-weight: 900;
+  margin-left: 20px;
+
+}
+
+.button {
+  justify-self: flex-end;
+}
+
+.body {
+  margin-right: 30px;
+}

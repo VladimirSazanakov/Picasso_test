@@ -1,0 +1,21 @@
+.main_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.post_list {
+  padding: 15px;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 1000px;
+  min-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+}
