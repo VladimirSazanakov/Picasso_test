@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Post = (props: any) => {
   const { id, title, body } = props.post;
   //console.log(props.post);
-  console.log(body.length);
+  //console.log(body.length);
   return (
     <div className={style.card}>
       <div className={style.number}>N {id}</div>

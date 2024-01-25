@@ -8,6 +8,8 @@
 }
 
 .post_list {
+  overflow-y: scroll;
+  height: 100%;
   padding: 15px;
   display: flex;
   align-self: center;

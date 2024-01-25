@@ -11,33 +11,62 @@ const Main_page = () => {
   const [isGetUp, setIsGetUp] = useState(false);
   //const [currentPos, setCurrentPos] = useState(0);
 
-  const currentPos = useAppSelector((state) => state.state.offset);
+  //const currentPos = useAppSelector((state) => state.state.offset);
+
+  const globalstate = useAppSelector(state => state);
+  let currentPos = globalstate.state.offset;
+
   const dispatch = useAppDispatch();
 
   const { data = [], isLoading } = useGetPostsQuery({ limit: 10, offset: currentPos });
-  console.log(data);
+  //console.log(data);
 
-  const scrollHandler = (e: any): void => {
-    if (e.target.documentElement.scrollTop < 50) {
-      setIsGetUp(true);
+  const scrollHandler = () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollPosition = window.scrollY;
+    console.log(documentHeight - (windowHeight + scrollPosition));
+    console.log('scroll currentPos', currentPos);
+
+    if (documentHeight - (windowHeight + scrollPosition) <= 50) {
+      console.log('NeedNewData')
+      const offset = currentPos < 90 ? currentPos + 5 : currentPos;
+      //dispatch(setOffset(offset));
+      setIsGetDown(true);
+      window.scrollTo(0, (documentHeight + scrollPosition))
+      console.log('current position', currentPos);
+      console.log('offset = ', offset);
+      console.log(globalstate.state.offset);
+
     }
-    if (e.target.documentElement.scrollHeight - e.target.documentElement.scrollTop - window.innerHeight < 50) {
-      setIsGetDown(true)
-      window.scrollTo(0, (e.target.documentElement.scrollHeight + e.target.documentElement.scrollTop))
-    }
+
+    //window.addEventListener('scroll', scrollHandler);
+
+    // const e = event.target as HTMLElement;
+    // // if(e.scrollTop )
+    // if (e.documentElement.scrollTop < 50) {
+    //   setIsGetUp(true);
+    // }
+    // if (e.documentElement.scrollHeight - e.documentElement.scrollTop - window.innerHeight < 50) {
+    //   setIsGetDown(true);
+    //   console.log('isGetDown from handler');
+    //   window.scrollTo(0, (e.documentElement.scrollHeight + e.documentElement.scrollTop))
+    // }
   }
 
   useEffect(() => {
-    document.addEventListener('scroll', scrollHandler)
+    window.addEventListener('scroll', scrollHandler)
     return () => {
-      document.removeEventListener('scroll', scrollHandler)
+      window.removeEventListener('scroll', scrollHandler)
     }
   }, []);
 
   useEffect(() => {
+    console.log('isGetDown', isGetDown);
     if (isGetDown) {
+      console.log("enable isGenDown");
       const offset = currentPos < 90 ? currentPos + 1 : currentPos;
-      dispatch(setOffset(offset))
+      dispatch(setOffset(offset));
       // setCurrentPos((prev: any) => {
       //   return prev < 90 ? prev + 1 : prev;
       // })
@@ -46,20 +75,22 @@ const Main_page = () => {
     }
   }, [isGetDown]);
 
-  useEffect(() => {
-    if (isGetUp) {
-      const offset = currentPos > 90 ? currentPos - 1 : currentPos;
-      dispatch(setOffset(offset))
-      // setCurrentPos(prev => {
-      //   return prev > 0 ? prev - 1 : prev;
-      //})
-      setIsGetUp(false);
-    }
-  }, [isGetUp]);
+  // useEffect(() => {
+  //   if (isGetUp) {
+  //     const offset = currentPos > 0 ? currentPos - 1 : currentPos;
+  //     dispatch(setOffset(offset))
+  //     // setCurrentPos(prev => {
+  //     //   return prev > 0 ? prev - 1 : prev;
+  //     // })
+  //     console.log(currentPos);
+  //     setIsGetUp(false);
+  //   }
+  // }, [isGetUp]);
 
   if (isLoading) return <h1>Loading...</h1>
 
   return (
+
     <div className={style.main_page}>
 
       {/* <ul>
@@ -73,12 +104,12 @@ const Main_page = () => {
           </li>)
         })}
       </ul> */}
-      <div className={style.post_list}>
+      <div className={style.post_list} onScroll={(e) => console.log(e)}>
         {data.map((item: any) => {
           return <Post key={item.id} post={item} />
         })}
       </div>
-
+      <button onClick={() => dispatch(setOffset(currentPos < 90 ? currentPos + 5 : currentPos))}>загрузить еще</button>
     </div>
   )
 }

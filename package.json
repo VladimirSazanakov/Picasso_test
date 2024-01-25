@@ -26,6 +26,9 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "react-virtualized-auto-sizer": "^1.0.21",
+    "react-window": "^1.8.10",
+    "react-window-infinite-loader": "^1.0.9",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   }
