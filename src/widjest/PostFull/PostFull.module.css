@@ -1,4 +1,4 @@
-.post_page {
+.card {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -12,6 +12,7 @@
   margin-right: auto;
   background-color: aliceblue;
   box-shadow: 5px 5px 10px darkgray;
+  border-radius: 10px;
 }
 
 .title {
